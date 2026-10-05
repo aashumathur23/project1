@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <div>
+    <h1>Students</h1>
+    <p class="sub" style="margin:0">{{ students|length }} {{ 'match' if q else 'enrolled' }}</p>
+  </div>
+  <form method="get">
+    <input name="q" value="{{ q }}" placeholder="Search name, roll no, email, course" aria-label="Search students">
+    <button class="btn" type="submit">Search</button>
+  </form>
+  <a class="btn" href="{{ url_for('add_student') }}">Add student</a>
+</div>
+
+{% if students %}
+<div class="scroll">
+  <table>
+    <thead><tr><th>Roll no</th><th>Name</th><th>Course</th><th>Email</th><th>Phone</th><th>Documents</th><th></th></tr></thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.roll_no }}</td>
+        <td>{{ s.full_name }}</td>
+        <td>{{ s.course }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.phone or '' }}</td>
+        <td>{{ s.documents|length }}</td>
+        <td><a class="btn small" href="{{ url_for('student_detail', student_id=s.id) }}">Open</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% elif q %}
+<p class="empty">No students match "{{ q }}".</p>
+{% else %}
+<p class="empty">No students yet. Add the first one to get started.</p>
+{% endif %}
+{% endblock %}

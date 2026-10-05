@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_macros.html" import docs_table %}
+{% block title %}{{ student.full_name }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('admin_dashboard') }}">Back to students</a></p>
+<h1>{{ student.full_name }}</h1>
+<p class="sub">Roll number {{ student.roll_no }}</p>
+
+<div class="panel">
+  <dl>
+    <dt>Course</dt><dd>{{ student.course }}</dd>
+    <dt>Email</dt><dd>{{ student.email }}</dd>
+    <dt>Phone</dt><dd>{{ student.phone or 'Not provided' }}</dd>
+    <dt>Date of birth</dt><dd>{{ student.date_of_birth.strftime('%d %b %Y') if student.date_of_birth else 'Not provided' }}</dd>
+    <dt>Address</dt><dd>{{ student.address or 'Not provided' }}</dd>
+    <dt>Added</dt><dd>{{ student.created_at.strftime('%d %b %Y') }}</dd>
+  </dl>
+</div>
+
+<h2>Documents</h2>
+{{ docs_table(student.documents) }}
+{% endblock %}

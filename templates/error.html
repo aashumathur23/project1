@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}{{ error.code }}{% endblock %}
+{% block content %}
+<h1>{{ 'You do not have access to this page' if error.code == 403 else 'Page not found' }}</h1>
+<p class="sub"><a href="{{ url_for('index') }}">Go back to your dashboard</a></p>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% set registering = mode == 'register' %}
+{% block title %}{{ 'Create your account' if registering else 'Add student' }}{% endblock %}
+{% block content %}
+<h1>{{ 'Create your account' if registering else 'Add student' }}</h1>
+<p class="sub">
+  {% if registering %}Your roll number is your username when you log in.
+  {% else %}This also creates the student's login. The roll number is their username.{% endif %}
+</p>
+<form class="panel" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="grid">
+    <div><label for="roll_no">Roll number</label>
+      <input id="roll_no" name="roll_no" value="{{ form.get('roll_no', '') }}" required></div>
+    <div><label for="full_name">Full name</label>
+      <input id="full_name" name="full_name" value="{{ form.get('full_name', '') }}" required></div>
+    <div><label for="email">Email</label>
+      <input id="email" name="email" type="email" value="{{ form.get('email', '') }}" required></div>
+    <div><label for="phone">Phone</label>
+      <input id="phone" name="phone" value="{{ form.get('phone', '') }}"></div>
+    <div><label for="course">Course</label>
+      <input id="course" name="course" value="{{ form.get('course', '') }}" required></div>
+    <div><label for="date_of_birth">Date of birth</label>
+      <input id="date_of_birth" name="date_of_birth" type="date" value="{{ form.get('date_of_birth', '') }}"></div>
+    <div class="wide"><label for="address">Address</label>
+      <textarea id="address" name="address">{{ form.get('address', '') }}</textarea></div>
+    <div><label for="password">{{ 'Password' if registering else 'Initial password' }}</label>
+      <input id="password" name="password" type="password" minlength="6" autocomplete="new-password" required></div>
+    {% if registering %}
+    <div><label for="confirm_password">Confirm password</label>
+      <input id="confirm_password" name="confirm_password" type="password" minlength="6" autocomplete="new-password" required></div>
+    {% endif %}
+  </div>
+  <p style="margin:20px 0 0">
+    <button class="btn" type="submit">{{ 'Create account' if registering else 'Save student' }}</button>
+    <a class="btn ghost" href="{{ url_for('login' if registering else 'admin_dashboard') }}">Cancel</a>
+  </p>
+</form>
+{% endblock %}

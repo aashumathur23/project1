@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% from "_macros.html" import docs_table %}
+{% block title %}My documents{% endblock %}
+{% block content %}
+<h1>{{ student.full_name }}</h1>
+<p class="sub">{{ student.course }} &middot; Roll number {{ student.roll_no }}</p>
+
+<h2 style="margin-top:0">Upload a document</h2>
+<form class="panel" method="post" action="{{ url_for('upload_document') }}" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="grid">
+    <div><label for="title">Title</label>
+      <input id="title" name="title" maxlength="150" placeholder="e.g. Mark sheet, Semester 2"></div>
+    <div><label for="file">File (PDF, PNG, JPG, DOC, DOCX; up to 10 MB)</label>
+      <input id="file" name="file" type="file" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" required></div>
+  </div>
+  <p style="margin:20px 0 0"><button class="btn" type="submit">Upload</button></p>
+</form>
+
+<h2>My documents</h2>
+{{ docs_table(student.documents) }}
+{% endblock %}
